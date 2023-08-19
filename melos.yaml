@@ -1,0 +1,140 @@
+name: resizable_text
+repository: https://github.com/helpisdev/resizable_text.git
+packages:
+  - .
+  - packages/**
+
+ignore:
+  - third_party/**
+
+sdkPath: auto
+command:
+  bootstrap:
+    usePubspecOverrides: true
+  version:
+    includeCommitId: true
+    linkToCommits: true
+    workspaceChangelog: true
+    updateGitTagRefs: true
+    includeScopes: true
+    branch: main
+scripts:
+  # SETUP
+  config:
+    exec: |
+      flutter config --enable-android --single-widget-reload-optimization
+      dart pub global activate mason_cli
+      mason add r13n -g
+
+  # DEPENDENCIES
+  get:
+    exec: flutter packages pub get
+  upgrade:
+    exec: flutter pub upgrade
+  upgrade:major:
+    exec: flutter pub upgrade --major-versions
+  flutter:clean:
+    exec: flutter clean
+
+  # STYLE
+  format:check:
+    exec: dart format --set-exit-if-changed .
+  format:fix:
+    exec: dart format --fix .
+  lint:check:
+    exec: dart fix --dry-run
+  lint:fix:
+    exec: dart fix --apply
+  analyze:
+    exec: |
+      dart analyze --fatal-infos
+      dart run custom_lint
+
+  # DOCUMENTATION
+  doc:
+    exec: |
+      melos analyze
+      dart pub get
+      dart doc .
+  doc:view:
+    exec: |
+      dart pub global activate dhttpd
+      dhttpd --path doc/api
+      echo "Navigate to http://localhost:8080"
+
+  # TESTS
+  test:unit:
+    exec: flutter test test/unit
+  test:widget:
+    exec: flutter test test/widget
+  test:acceptance:
+    exec: flutter test test/acceptance
+  test:integration:
+    exec: flutter test test/integration
+  test:integration:browser:
+    exec: |
+      chromedriver --port=4444
+      flutter drive --driver=test/integration/driver.dart --target=test/integration/*_test.dart -d web-server
+  test:benchmark:
+    exec: flutter test test/benchmark
+  test:goldens:
+    exec: flutter test --update-goldens --tags=golden
+  test:goldens:ci: # Don't update goldens on CI to compare results
+    exec: flutter test --ci --tags=golden
+  test:coverage:
+    exec: flutter test --coverage --merge-coverage --no-pub
+
+  # CODE GENERATION
+  gen:coverage:
+    exec: $MELOS_ROOT_PATH/tool/combine_coverage.sh
+  gen:coverage:html:
+    exec: genhtml $MELOS_ROOT_PATH/coverage/lcov.info -o $MELOS_ROOT_PATH/coverage/html
+  gen:code:prepare:
+    exec: |
+      melos flutter:clean
+      melos get
+  gen:code:
+    exec: dart run build_runner build --delete-conflicting-outputs
+  gen:code:post:
+    exec: dart pub get
+  gen:code:complete:
+    exec: |
+      melos gen:code:prepare
+      melos gen:code
+      melos gen:code:post
+  gen:code:watch:
+    exec: dart run build_runner watch --delete-conflicting-outputs
+  # Localization specific generation
+  gen:l10n:
+    exec: flutter gen-l10n
+  gen:r13n:
+    # Sadly r13n does not provide an option to flutter testify the destination dir
+    exec: |
+      dart pub global activate mason_cli
+      mason add r13n -g
+      mason make r13n --on-conflict overwrite
+      rm -rf lib/src/gen/r13n
+      mv assets/r13n/gen lib/src/gen/r13n
+  # Android icons generation
+  gen:icons:
+    exec: |
+      melos get
+      dart run icons_launcher:create --path icons_launcher.yaml
+
+  # BUILDS
+  # Appbundle
+  build:debug:appbundle:
+    exec: flutter -v --disable-telemetry build appbundle
+  build:release:appbundle:
+    exec: flutter -v --disable-telemetry --suppress-analytics build appbundle --multidex --obfuscate --split-debug-info=build/where_at/outputs/symbols --split-per-abi --release
+  # APK
+  build:debug:apk:
+    exec: flutter -v --disable-telemetry build apk
+  build:release:apk:
+    exec: flutter -v --disable-telemetry --suppress-analytics build apk --multidex --obfuscate --split-debug-info=build/where_at/outputs/symbols --split-per-abi --release
+
+  # DEPLOYMENT
+  fastlane:release:
+    exec: bundle exec fastlane release
+  fastlane:beta:
+    exec: bundle exec fastlane beta

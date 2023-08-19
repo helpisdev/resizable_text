@@ -1,0 +1,6 @@
+[submodule "packages/breakpoints_utilities"]
+	path = packages/breakpoints_utilities
+	url = https://github.com/helpisdev/breakpoints_utilities.git
+[submodule "packages/screen_size_provider"]
+	path = packages/screen_size_provider
+	url = https://github.com/helpisdev/screen_size_provider.git
