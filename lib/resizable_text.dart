@@ -1,5 +1,3 @@
-library resizable_text;
-
 // Body small - large, lead paragraph
 export 'src/body/body_large.dart';
 export 'src/body/body_medium.dart';

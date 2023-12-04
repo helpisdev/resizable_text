@@ -75,7 +75,7 @@ class ResizableText extends Text {
     super.strutStyle,
     super.textDirection,
     super.textHeightBehavior,
-    super.textScaleFactor,
+    super.textScaler,
     super.textWidthBasis,
   })  : _style = style,
         super(data ?? '', textAlign: textAlign, style: style);
@@ -95,7 +95,7 @@ class ResizableText extends Text {
     super.strutStyle,
     super.textDirection,
     super.textHeightBehavior,
-    super.textScaleFactor,
+    super.textScaler,
     super.textWidthBasis,
   })  : _style = style,
         super.rich(style: style, textAlign: textAlign);
@@ -158,7 +158,7 @@ class ResizableText extends Text {
   /// The [textHeightBehavior] parameter is the behavior for computing the
   /// height of the text.
   ///
-  /// The [textScaleFactor] parameter is the scaling factor for text.
+  /// The [textScaler] parameter is the scaling factor for text.
   ///
   /// The [textWidthBasis] parameter is the sizing basis for the width of the
   /// text container.
@@ -180,7 +180,7 @@ class ResizableText extends Text {
     final StrutStyle? strutStyle,
     final TextDirection? textDirection,
     final TextHeightBehavior? textHeightBehavior,
-    final double? textScaleFactor,
+    final TextScaler? textScaler,
     final TextWidthBasis? textWidthBasis,
   }) {
     if (textSpan != null) {
@@ -198,7 +198,7 @@ class ResizableText extends Text {
         strutStyle: strutStyle ?? this.strutStyle,
         textDirection: textDirection ?? this.textDirection,
         textHeightBehavior: textHeightBehavior ?? this.textHeightBehavior,
-        textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+        textScaler: textScaler ?? this.textScaler,
         textWidthBasis: textWidthBasis ?? this.textWidthBasis,
       );
     }
@@ -217,7 +217,7 @@ class ResizableText extends Text {
         strutStyle: strutStyle ?? this.strutStyle,
         textDirection: textDirection ?? this.textDirection,
         textHeightBehavior: textHeightBehavior ?? this.textHeightBehavior,
-        textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+        textScaler: textScaler ?? this.textScaler,
         textWidthBasis: textWidthBasis ?? this.textWidthBasis,
       );
     }
@@ -237,7 +237,7 @@ class ResizableText extends Text {
         strutStyle: strutStyle ?? this.strutStyle,
         textDirection: textDirection ?? this.textDirection,
         textHeightBehavior: textHeightBehavior ?? this.textHeightBehavior,
-        textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+        textScaler: textScaler ?? this.textScaler,
         textWidthBasis: textWidthBasis ?? this.textWidthBasis,
       );
     }
@@ -256,7 +256,7 @@ class ResizableText extends Text {
       strutStyle: strutStyle ?? this.strutStyle,
       textDirection: textDirection ?? this.textDirection,
       textHeightBehavior: textHeightBehavior ?? this.textHeightBehavior,
-      textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+      textScaler: textScaler ?? this.textScaler,
       textWidthBasis: textWidthBasis ?? this.textWidthBasis,
     );
   }
@@ -288,10 +288,10 @@ class ResizableText extends Text {
 /// - [DefaultTextStyle.textHeightBehavior]
 /// - [DefaultTextHeightBehavior.maybeOf]
 ///
-/// The [textScaleFactor] method returns the text scale factor for the
+/// The [textScaler] method returns the text scale factor for the
 /// [ResizableText] by checking the following in order:
-/// - [ResizableText.textScaleFactor]
-/// - [MediaQuery.textScaleFactorOf]
+/// - [ResizableText.textScaler]
+/// - [MediaQuery.textScalerOf]
 ///
 /// The [buildTextSpan] method builds a [TextSpan] for the [ResizableText] by:
 /// - Getting the effective [ResizableTextStyle]
@@ -327,8 +327,8 @@ class _StyledRichText extends StatelessWidget {
       defaultTextStyle.textHeightBehavior ??
       DefaultTextHeightBehavior.maybeOf(context);
 
-  double textScaleFactor(final BuildContext context) =>
-      text.textScaleFactor ?? MediaQuery.textScaleFactorOf(context);
+  TextScaler textScaler(final BuildContext context) =>
+      text.textScaler ?? MediaQuery.textScalerOf(context);
 
   TextSpan buildTextSpan(final ResizableText text, final BuildContext context) {
     final ResizableTextStyle effectiveTextStyle = text.style;
@@ -383,8 +383,8 @@ class _StyledRichText extends StatelessWidget {
         locale: text.locale,
         softWrap: text.softWrap ?? defaultTextStyle.softWrap,
         overflow: text.overflow,
-        textScaleFactor: textScaleFactor(context),
         maxLines: text.maxLines ?? defaultTextStyle.maxLines,
+        textScaler: textScaler(context),
         strutStyle: text.strutStyle,
         textWidthBasis: text.textWidthBasis ?? defaultTextStyle.textWidthBasis,
         textHeightBehavior: textHeightBehavior(context, defaultTextStyle),

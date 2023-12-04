@@ -12,6 +12,7 @@ dependencies:
     path: packages/breakpoints_utilities/
   flutter:
     sdk: flutter
+  meta: ^1.10.0
   screen_size_provider:
     path: packages/screen_size_provider/
 

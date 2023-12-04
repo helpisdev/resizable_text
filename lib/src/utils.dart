@@ -158,7 +158,7 @@ extension Copy on RichText {
   /// - [textDirection] -> The directionality of the text.
   /// - [softWrap] -> Whether the text should break at soft line breaks.
   /// - [overflow] -> How visual overflow should be handled.
-  /// - [textScaleFactor] -> The scaling factor for text.
+  /// - [textScaler] -> The scaling factor for text.
   /// - [maxLines] -> The maximum number of lines for the text to span, wrapping
   ///   if necessary.
   /// - [locale] -> The locale used to select region-specific glyphs and
@@ -179,7 +179,7 @@ extension Copy on RichText {
     final TextDirection? textDirection,
     final bool? softWrap,
     final TextOverflow? overflow,
-    final double? textScaleFactor,
+    final TextScaler? textScaler,
     final int? maxLines,
     final Locale? locale,
     final StrutStyle? strutStyle,
@@ -194,7 +194,7 @@ extension Copy on RichText {
         textDirection: textDirection ?? this.textDirection,
         softWrap: softWrap ?? this.softWrap,
         overflow: overflow ?? this.overflow,
-        textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+        textScaler: textScaler ?? this.textScaler,
         maxLines: maxLines ?? this.maxLines,
         locale: locale ?? this.locale,
         strutStyle: strutStyle ?? this.strutStyle,

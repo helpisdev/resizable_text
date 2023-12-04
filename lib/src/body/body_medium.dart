@@ -19,7 +19,7 @@ class BodyMedium extends ResizableText {
     super.textAlign,
     super.textDirection,
     super.textHeightBehavior,
-    super.textScaleFactor,
+    super.textScaler,
     super.textWidthBasis,
   }) : super();
 
@@ -38,7 +38,7 @@ class BodyMedium extends ResizableText {
     super.textAlign,
     super.textDirection,
     super.textHeightBehavior,
-    super.textScaleFactor,
+    super.textScaler,
     super.textWidthBasis,
   }) : super.rich();
 
