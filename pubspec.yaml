@@ -4,17 +4,17 @@ version: 0.0.2
 publish_to: "none"
 
 environment:
-  sdk: ">=3.2.4 <4.0.0"
-  flutter: ">=3.16.7 <4.0.0"
+  sdk: ">=3.3.3 <4.0.0"
+  flutter: ">=3.19.5 <4.0.0"
 
 dependencies:
   breakpoints_utilities:
     path: packages/breakpoints_utilities/
   flutter:
     sdk: flutter
-  meta: ^1.10.0
+  meta: ^1.11.0
   screen_size_provider:
     path: packages/screen_size_provider/
 
 dev_dependencies:
-  melos: ^4.0.0
+  melos: ^5.2.2
